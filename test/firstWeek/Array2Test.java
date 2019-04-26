@@ -17,8 +17,12 @@ public class Array2Test {
     @Test
     public void int2StrTest() {
         String input = "I am a boy";
-        assertEquals(array2.reverseStr(input),"boy a am I");
-
+        assertEquals("boy a am I", array2.reverseStr(input));
     }
 
+    @Test
+    public void indexOfTest() {
+        String input = "i am a";
+        assertEquals(1, input.indexOf(" "));
+    }
 }
