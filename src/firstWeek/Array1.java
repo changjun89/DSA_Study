@@ -12,10 +12,10 @@ public class Array1 {
         if(input ==0 ) {
             return 0+"";
         }
-        return digitString(digitLIst(Math.abs(input)));
+        return digitString(digitList(Math.abs(input)));
     }
 
-    public List<Integer> digitLIst(int input) {
+    public List<Integer> digitList(int input) {
         List<Integer> list = new ArrayList<>();
         int remainder = input;
 
