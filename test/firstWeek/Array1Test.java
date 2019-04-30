@@ -33,8 +33,18 @@ public class Array1Test {
         result.add(3);
         result.add(2);
         result.add(1);
-        assertEquals(result, array1.digitLIst(input));
+        assertEquals(result, array1.digitList(input));
     }
+
+    @Test
+    public void digitStringTest() {
+        List<Integer> input = new ArrayList<>();
+        input.add(3);
+        input.add(2);
+        input.add(1);
+        assertEquals("123", array1.digitString(input));
+    }
+
 
 }
 
