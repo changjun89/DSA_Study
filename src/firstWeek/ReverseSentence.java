@@ -3,24 +3,24 @@ package firstWeek;
 public class ReverseSentence {
     private static final String SEPARATOR=" ";
     private String reverseStr = "";
-    private String centence ;
+    private String sentence;
 
-    public ReverseSentence(String centence) {
-        this.centence = centence;
+    public ReverseSentence(String sentence) {
+        this.sentence = sentence;
     }
 
     private int blankIdx() {
-        return centence.indexOf(SEPARATOR);
+        return sentence.indexOf(SEPARATOR);
     }
     private boolean hasSeparator() {
-        return centence.length() > 0 && centence.indexOf(SEPARATOR) > -1;
+        return sentence.length() > 0 && sentence.indexOf(SEPARATOR) > -1;
     }
 
     private String firstWord() {
-        return centence.substring(0, blankIdx());
+        return sentence.substring(0, blankIdx());
     }
     private String removeFirstWord() {
-        return centence.substring(blankIdx()+1);
+        return sentence.substring(blankIdx()+1);
     }
     private String delLastSeparator() {
         return reverseStr.substring(0, reverseStr.length() - 1);
@@ -29,9 +29,9 @@ public class ReverseSentence {
     public String reverse() {
         while(hasSeparator()){
             reverseStr =firstWord()+SEPARATOR+reverseStr;
-            centence= removeFirstWord();
+            sentence = removeFirstWord();
         }
-        reverseStr =centence+SEPARATOR+reverseStr;
+        reverseStr = sentence +SEPARATOR+reverseStr;
         return delLastSeparator();
     }
 
