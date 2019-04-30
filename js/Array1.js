@@ -1,3 +1,5 @@
+module.exports=number2String;
+
 function assertEquals(a, b) {
     if (a !== b) {
         console.error("expected : " + a + "  but actual : " + b);
