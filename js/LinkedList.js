@@ -18,6 +18,7 @@ function linkedList() {
   this.insert = insert;
   this.removeAt = removeAt;
   this.remove = remove;
+  this.indexOf = indexOf;
 }
 
 function append(element) {
@@ -104,7 +105,20 @@ function remove(element) {
       return ;
     }
   }
+  return -1;
+}
 
+function indexOf(element) {
+
+  let curNode = this.head;
+  let curIdx = 0;
+  while (curNode) {
+    if (curNode.value === element) {
+      return curIdx;
+    }
+    curNode = curNode.next;
+    curIdx++;
+  }
   return -1;
 
 }
@@ -121,8 +135,12 @@ list.append('3');
 list.insert('1', 1);
 list.removeAt(1);
 list.remove('4');
+const noItem = list.remove('10');
+assertEquals(-1, noItem);
 assertEquals(false, list.isEmpty());
 assertEquals(2, list.length);
 assertEquals('5', list.head.value);
 assertEquals('3', list.head.next.value);
+assertEquals(0, list.indexOf('5'));
+assertEquals(1, list.indexOf('3'));
 //assertEquals('4', list.head.next.next.value);
