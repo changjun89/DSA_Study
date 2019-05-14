@@ -78,5 +78,10 @@ public class Node {
         return getRightNode() == null;
     }
 
+    public void delete(Node head, int value) {
+        NodeManager nm = new NodeManager(head);
+        nm.delete(value);
+    }
+
 
 }

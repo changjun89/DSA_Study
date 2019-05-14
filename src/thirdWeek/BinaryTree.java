@@ -64,40 +64,40 @@ public class BinaryTree {
         if (head == null) {
             return;
         }
-
-        Node parentNode = head;
-        Node selectedNode = head;
-
-        while (selectedNode.getValue() != value) {
-            parentNode = selectedNode;
-            selectedNode = selectedNode.getNextHeader(value);
-        }
-
-        if (selectedNode.hasNoChild()) {
-            if (parentNode.isBigger(selectedNode.getValue())) {
-                parentNode.setRightNode(null);
-                return;
-            }
-            parentNode.setLeftNode(null);
-            return;
-        }
-
-        if (selectedNode.hasTwoChildren()) {
-            Node minNode = minNode(selectedNode, selectedNode);
-            minNode.setRightNode(selectedNode.getRightNode());
-            parentNode.setLeftNode(minNode);
-            return;
-        }
-
-        if (selectedNode.isLeftNodeNull()) {
-            parentNode.setRightNode(selectedNode.getRightNode());
-            return;
-        }
-
-        if (selectedNode.isRightNodeNull()) {
-            parentNode.setLeftNode(selectedNode.getLeftNode());
-            return;
-        }
+        head.delete(head, value);
+//        Node parentNode = head;
+//        Node selectedNode = head;
+//
+//        while (selectedNode.getValue() != value) {
+//            parentNode = selectedNode;
+//            selectedNode = selectedNode.getNextHeader(value);
+//        }
+//
+//        if (selectedNode.hasNoChild()) {
+//            if (parentNode.isBigger(selectedNode.getValue())) {
+//                parentNode.setRightNode(null);
+//                return;
+//            }
+//            parentNode.setLeftNode(null);
+//            return;
+//        }
+//
+//        if (selectedNode.hasTwoChildren()) {
+//            Node minNode = minNode(selectedNode, selectedNode);
+//            minNode.setRightNode(selectedNode.getRightNode());
+//            parentNode.setLeftNode(minNode);
+//            return;
+//        }
+//
+//        if (selectedNode.isLeftNodeNull()) {
+//            parentNode.setRightNode(selectedNode.getRightNode());
+//            return;
+//        }
+//
+//        if (selectedNode.isRightNodeNull()) {
+//            parentNode.setLeftNode(selectedNode.getLeftNode());
+//            return;
+//        }
 
     }
 
