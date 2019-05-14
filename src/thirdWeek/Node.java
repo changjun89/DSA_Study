@@ -58,13 +58,24 @@ public class Node {
         return false;
     }
 
-    public boolean hasNocChild() {
+    public boolean hasNoChild() {
         return leftNode == null && rightNode == null;
+    }
+
+    public boolean hasTwoChildren() {
+        return leftNode != null && rightNode != null;
     }
 
     public Node getNextHeader(int value) {
         return isBigger(value) ? getRightNode() : getLeftNode();
+    }
 
+    public boolean isLeftNodeNull() {
+        return getLeftNode() == null;
+    }
+
+    public boolean isRightNodeNull() {
+        return getRightNode() == null;
     }
 
 

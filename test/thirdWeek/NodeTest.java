@@ -21,7 +21,7 @@ public class NodeTest {
     @Test
     public void hasNoChild() {
         Node newNode = new Node(5);
-        assertEquals(true, newNode.hasNocChild());
+        assertEquals(true, newNode.hasNoChild());
     }
 
     @Test

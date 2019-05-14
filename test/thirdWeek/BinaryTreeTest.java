@@ -25,17 +25,6 @@ public class BinaryTreeTest {
         assertEquals(9, tree.getHead().getRightNode().getRightNode().getValue());
         tree.insert(10);
         assertEquals(10, tree.getHead().getRightNode().getRightNode().getRightNode().getValue());
-        //assertEquals(1, tree.getHeight());
-//        tree.insert(8);
-//        tree.insert(5);
-//        tree.insert(6);
-//        tree.insert(9);
-//        tree.insert(3);
-//        tree.insert(2);
-        //assertEquals(4,tree.getHeight());
-
-        //tree.delete(5);
-        //assertEquals(3,tree.getHeight());
     }
 
     @Test
@@ -88,9 +77,28 @@ public class BinaryTreeTest {
         tree.insert(10);
         assertEquals(4, tree.getHeight());
         tree.delete(10);
-        //assertEquals(3,tree.getHeight());
-        //tree.getHeight(4)
-        //tree.delete(10);
+        assertEquals(3, tree.getHeight());
+        tree.insert(3);
+        tree.insert(2);
+        tree.insert(5);
+        assertEquals(4, tree.getHeight());
+        tree.delete(3);
+        assertEquals(4, tree.getHeight());
+        assertEquals(2, tree.getHead().getLeftNode().getLeftNode().getValue());
+        assertEquals(5, tree.getHead().getLeftNode().getLeftNode().getRightNode().getValue());
+        tree.delete(8);
+        assertEquals(9, tree.getHead().getRightNode().getValue());
+        tree.delete(6);
+        assertEquals(3, tree.getHeight());
+        assertEquals(2, tree.getHead().getLeftNode().getValue());
+    }
+
+    @Test
+    public void minNodeTest() {
+        tree.insert(7);
+        tree.insert(6);
+        tree.insert(5);
+        assertEquals(5, tree.minNode(tree.getHead(), tree.getHead()).getValue());
     }
 
 

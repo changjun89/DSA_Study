@@ -35,7 +35,7 @@ public class BinaryTree {
         if (rootNode == null) {
             return 0;
         }
-        if (rootNode.hasNocChild()) {
+        if (rootNode.hasNoChild()) {
             return 1;
         }
         int leftNodeHeight = getHeight(rootNode.getLeftNode());
@@ -60,10 +60,54 @@ public class BinaryTree {
         return searchNode(value, head.getNextHeader(value));
     }
 
-    public void delete(Object value) {
-        Node header = head;
-        Node focus = head;
+    public void delete(int value) {
+        if (head == null) {
+            return;
+        }
 
+        Node parentNode = head;
+        Node selectedNode = head;
+
+        while (selectedNode.getValue() != value) {
+            parentNode = selectedNode;
+            selectedNode = selectedNode.getNextHeader(value);
+        }
+
+        if (selectedNode.hasNoChild()) {
+            if (parentNode.isBigger(selectedNode.getValue())) {
+                parentNode.setRightNode(null);
+                return;
+            }
+            parentNode.setLeftNode(null);
+            return;
+        }
+
+        if (selectedNode.hasTwoChildren()) {
+            Node minNode = minNode(selectedNode, selectedNode);
+            minNode.setRightNode(selectedNode.getRightNode());
+            parentNode.setLeftNode(minNode);
+            return;
+        }
+
+        if (selectedNode.isLeftNodeNull()) {
+            parentNode.setRightNode(selectedNode.getRightNode());
+            return;
+        }
+
+        if (selectedNode.isRightNodeNull()) {
+            parentNode.setLeftNode(selectedNode.getLeftNode());
+            return;
+        }
+
+    }
+
+    public Node minNode(Node focus, Node parent) {
+        parent = focus;
+        if (focus.getLeftNode() == null) {
+            parent.setLeftNode(null);
+            return focus;
+        }
+        return minNode(focus.getLeftNode(), parent);
     }
 
 
