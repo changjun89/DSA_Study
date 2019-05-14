@@ -65,40 +65,6 @@ public class BinaryTree {
             return;
         }
         head.delete(head, value);
-//        Node parentNode = head;
-//        Node selectedNode = head;
-//
-//        while (selectedNode.getValue() != value) {
-//            parentNode = selectedNode;
-//            selectedNode = selectedNode.getNextHeader(value);
-//        }
-//
-//        if (selectedNode.hasNoChild()) {
-//            if (parentNode.isBigger(selectedNode.getValue())) {
-//                parentNode.setRightNode(null);
-//                return;
-//            }
-//            parentNode.setLeftNode(null);
-//            return;
-//        }
-//
-//        if (selectedNode.hasTwoChildren()) {
-//            Node minNode = minNode(selectedNode, selectedNode);
-//            minNode.setRightNode(selectedNode.getRightNode());
-//            parentNode.setLeftNode(minNode);
-//            return;
-//        }
-//
-//        if (selectedNode.isLeftNodeNull()) {
-//            parentNode.setRightNode(selectedNode.getRightNode());
-//            return;
-//        }
-//
-//        if (selectedNode.isRightNodeNull()) {
-//            parentNode.setLeftNode(selectedNode.getLeftNode());
-//            return;
-//        }
-
     }
 
     public Node minNode(Node focus, Node parent) {
