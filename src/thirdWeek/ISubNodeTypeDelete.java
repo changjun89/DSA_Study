@@ -1,5 +1,5 @@
 package thirdWeek;
 
-public interface INodeController {
+public interface ISubNodeTypeDelete {
     void deleteNode(Node parent, Node deleteNode);
 }

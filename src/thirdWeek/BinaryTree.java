@@ -14,14 +14,7 @@ public class BinaryTree {
             head = newNode;
             return;
         }
-        insert(value, head);
-    }
-
-    private void insert(int value, Node head) {
-        if (head.setNode(value)) {
-            return;
-        }
-        insert(value, head.getNextHeader(value));
+        head.insert(value, head);
     }
 
     public int getHeight() {
@@ -64,17 +57,25 @@ public class BinaryTree {
         if (head == null) {
             return;
         }
+        if (head.getValue() == value) {
+            head = head.headDelete(head);
+            return;
+        }
         head.delete(head, value);
     }
 
-    public Node minNode(Node focus, Node parent) {
-        parent = focus;
-        if (focus.getLeftNode() == null) {
-            parent.setLeftNode(null);
-            return focus;
+    public Node search(int value) {
+        if (head == null) {
+            return null;
         }
-        return minNode(focus.getLeftNode(), parent);
+        return head.search(head, value);
     }
 
+    public Boolean hasNode(int value) {
+        if (head == null) {
+            return false;
+        }
+        return head.hasNode(head, value);
+    }
 
 }

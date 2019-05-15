@@ -31,4 +31,22 @@ public class NodeTest {
         assertEquals(6, newNode.getNextHeader(7).getValue());
     }
 
+    @Test
+    public void findTest() {
+        Node newNode = new Node(5);
+        newNode.setRightNode(new Node(6));
+        newNode.setLeftNode(new Node(4));
+        assertEquals(6, newNode.search(newNode, 6).getValue());
+        assertEquals(4, newNode.search(newNode, 4).getValue());
+    }
+
+    @Test
+    public void hasNodeTest() {
+        Node newNode = new Node(5);
+        newNode.setRightNode(new Node(6));
+        newNode.setLeftNode(new Node(4));
+        assertEquals(true, newNode.hasNode(newNode, 6));
+        assertEquals(false, newNode.hasNode(newNode, 7));
+    }
+
 }

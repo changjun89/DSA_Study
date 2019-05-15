@@ -1,14 +1,14 @@
 package thirdWeek;
 
-public class NodeManager {
+public class DeleteNode {
 
     Node parentNode;
     Node selectedNode;
     int deleteNodeKey;
 
-    private INodeController iNodeController;
+    private ISubNodeTypeDelete iSubNodeTypeDelete;
 
-    public NodeManager(Node head) {
+    public DeleteNode(Node head) {
         parentNode = head;
         selectedNode = head;
     }
@@ -21,7 +21,7 @@ public class NodeManager {
     }
 
     private void nodeDelete() {
-        iNodeController.deleteNode(parentNode, selectedNode);
+        iSubNodeTypeDelete.deleteNode(parentNode, selectedNode);
     }
 
     private void findDeleteNode() {
@@ -38,14 +38,14 @@ public class NodeManager {
 
     private void subNodeType() {
         if (selectedNode.hasNoChild()) {
-            iNodeController = new ZeroSubNodeController();
+            iSubNodeTypeDelete = new ZeroSubNodeTypeDelete();
             return;
         }
         if (selectedNode.hasTwoChildren()) {
-            iNodeController = new TwoSubNodeController();
+            iSubNodeTypeDelete = new TwoSubNodeTypeDelete();
             return;
         }
-        iNodeController = new OneSubNodeController();
+        iSubNodeTypeDelete = new OneSubNodeTypeDelete();
     }
 
 }

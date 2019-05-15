@@ -1,6 +1,6 @@
 package thirdWeek;
 
-public class TwoSubNodeController implements INodeController {
+public class TwoSubNodeTypeDelete implements ISubNodeTypeDelete {
     @Override
     public void deleteNode(Node parent, Node deleteNode) {
         Node minNode = minNode(deleteNode, deleteNode);

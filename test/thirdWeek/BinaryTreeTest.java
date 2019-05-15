@@ -14,91 +14,46 @@ public class BinaryTreeTest {
     }
 
     @Test
-    public void insertTest() {
+    public void 아무것도없는tree에_하나의_값만_insert() {
         tree.insert(7);
         assertEquals(7, tree.getHead().getValue());
-        tree.insert(6);
-        assertEquals(6, tree.getHead().getLeftNode().getValue());
-        tree.insert(8);
-        assertEquals(8, tree.getHead().getRightNode().getValue());
-        tree.insert(9);
-        assertEquals(9, tree.getHead().getRightNode().getRightNode().getValue());
-        tree.insert(10);
-        assertEquals(10, tree.getHead().getRightNode().getRightNode().getRightNode().getValue());
+        assertEquals(1, tree.getHeight());
     }
 
     @Test
-    public void heightTest() {
-        assertEquals(0, tree.getHeight());
+    public void 여러값이있는tree에_insert() {
         tree.insert(7);
         assertEquals(1, tree.getHeight());
-        tree.insert(8);
+        tree.insert(6);
         assertEquals(2, tree.getHeight());
-        tree.insert(9);
-        assertEquals(3, tree.getHeight());
-        tree.insert(10);
-        assertEquals(4, tree.getHeight());
-        tree.insert(2);
-        assertEquals(4, tree.getHeight());
+        assertEquals(true, tree.hasNode(6));
     }
 
     @Test
-    public void searchTest() {
-        tree.insert(7);
-        tree.insert(8);
-        tree.insert(9);
-        tree.insert(10);
-        tree.insert(2);
-
-        tree.searchNode(7);
-        assertEquals(7, tree.searchNode(7).getValue());
-        assertEquals(8, tree.searchNode(8).getValue());
-        assertEquals(9, tree.searchNode(9).getValue());
-        assertEquals(10, tree.searchNode(10).getValue());
-        assertEquals(2, tree.searchNode(2).getValue());
-
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void searchExceptionTest() throws Exception {
-        tree.insert(7);
-        tree.insert(8);
-
-        tree.searchNode(3);
-
-    }
-
-    @Test
-    public void deleteTest() {
+    public void 일반삭제테스트() {
         tree.insert(7);
         tree.insert(6);
-        tree.insert(8);
-        tree.insert(9);
-        tree.insert(10);
-        assertEquals(4, tree.getHeight());
-        tree.delete(10);
-        assertEquals(3, tree.getHeight());
-        tree.insert(3);
-        tree.insert(2);
-        tree.insert(5);
-        assertEquals(4, tree.getHeight());
-        tree.delete(3);
-        assertEquals(4, tree.getHeight());
-        assertEquals(2, tree.getHead().getLeftNode().getLeftNode().getValue());
-        assertEquals(5, tree.getHead().getLeftNode().getLeftNode().getRightNode().getValue());
-        tree.delete(8);
-        assertEquals(9, tree.getHead().getRightNode().getValue());
+        assertEquals(true, tree.hasNode(7));
         tree.delete(6);
-        assertEquals(3, tree.getHeight());
-        assertEquals(2, tree.getHead().getLeftNode().getValue());
+        assertEquals(false, tree.hasNode(6));
     }
 
     @Test
-    public void minNodeTest() {
+    public void 헤드삭제테스트() {
+        tree.insert(7);
+        assertEquals(true, tree.hasNode(7));
+        tree.delete(7);
+        assertEquals(false, tree.hasNode(7));
+    }
+
+    @Test
+    public void 헤드삭제후_헤드노드가_바뀌는지_테스트() {
         tree.insert(7);
         tree.insert(6);
-        tree.insert(5);
-        assertEquals(5, tree.minNode(tree.getHead(), tree.getHead()).getValue());
+        assertEquals(true, tree.hasNode(7));
+        tree.delete(7);
+        assertEquals(false, tree.hasNode(7));
+        assertEquals(6, tree.getHead().getValue());
     }
 
 

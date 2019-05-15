@@ -79,9 +79,30 @@ public class Node {
     }
 
     public void delete(Node head, int value) {
-        NodeManager nm = new NodeManager(head);
+        DeleteNode nm = new DeleteNode(head);
         nm.delete(value);
     }
 
+    public Node search(Node head, int value) {
+        SearchNode searchNode = new SearchNode();
+        return searchNode.searchNode(head, value);
+    }
 
+    public boolean hasNode(Node head, int value) {
+        return search(head, value) == null ? false : true;
+    }
+
+    public Node headDelete(Node head) {
+        if (head.hasNoChild()) {
+            return null;
+        }
+        return head.isLeftNodeNull() == true ? head.getRightNode() : head.getLeftNode();
+    }
+
+    public void insert(int value, Node head) {
+        if (head.setNode(value)) {
+            return;
+        }
+        insert(value, head.getNextHeader(value));
+    }
 }
