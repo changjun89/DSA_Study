@@ -34,4 +34,35 @@ public class Node {
         this.rightNode = rightNode;
     }
 
+    public boolean containChild(Node deleteNode) {
+        int key = deleteNode.getKey();
+        if (isRightKey(key) || isLeftKey(key)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isLeftKey(int key) {
+        return leftNode != null && leftNode.getKey() == key;
+    }
+
+    private boolean isRightKey(int key) {
+        return rightNode != null && rightNode.getKey() == key;
+    }
+
+    public boolean bigger(Node newNode) {
+        return key > newNode.getKey();
+    }
+
+    public boolean isLeftNodeNull() {
+        return leftNode == null;
+    }
+
+    public boolean isRightNodeNull() {
+        return rightNode == null;
+    }
+
+    public boolean hasNoChild() {
+        return isLeftNodeNull() && isRightNodeNull();
+    }
 }

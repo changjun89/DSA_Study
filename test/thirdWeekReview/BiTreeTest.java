@@ -14,7 +14,7 @@ public class BiTreeTest {
     }
 
     @Test
-    public void 아무것도없을때_테스트() {
+    public void noNodeTest() {
         assertEquals(0, tree.height());
     }
 
@@ -70,15 +70,6 @@ public class BiTreeTest {
         assertEquals(3, tree.height());
         tree.delete(4);
         assertEquals(3, tree.height());
-    }
-
-    @Test
-    public void findTest() {
-        tree.insert(5);
-        tree.insert(4);
-        tree.insert(6);
-        tree.insert(7);
-        assertEquals(null, tree.findNode(8));
     }
 
 }

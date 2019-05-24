@@ -14,30 +14,30 @@ public class BiTree {
     }
 
     private void insert(Node rootNode, Node newNode) {
-        if (newNode.getKey() > root.getKey()) {
-            if (rightNodeSet(rootNode, newNode)) return;
-            insert(root.getRightNode(), newNode);
+        if (!root.bigger(newNode)) {
+            rightInsert(rootNode, newNode);
             return;
         }
-        if (leftNodeSet(rootNode, newNode)) return;
+        leftInsert(rootNode, newNode);
+        return;
+    }
+
+    private void leftInsert(Node rootNode, Node newNode) {
+        if (rootNode.isLeftNodeNull()) {
+            rootNode.setLeftNode(newNode);
+            return;
+        }
         insert(root.getLeftNode(), newNode);
         return;
     }
 
-    private boolean leftNodeSet(Node rootNode, Node newNode) {
-        if (rootNode.getLeftNode() == null) {
-            rootNode.setLeftNode(newNode);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean rightNodeSet(Node rootNode, Node newNode) {
-        if (rootNode.getRightNode() == null) {
+    private void rightInsert(Node rootNode, Node newNode) {
+        if (rootNode.isRightNodeNull()) {
             rootNode.setRightNode(newNode);
-            return true;
+            return;
         }
-        return false;
+        insert(root.getRightNode(), newNode);
+        return;
     }
 
     public int height() {
@@ -51,12 +51,16 @@ public class BiTree {
         if (rootNode == null) {
             return 0;
         }
-        if (rootNode.getLeftNode() == null && rootNode.getRightNode() == null) {
+        if (rootNode.hasNoChild()) {
             return 1;
         }
+        return childHeight(rootNode) + 1;
+    }
+
+    private int childHeight(Node rootNode) {
         int leftNodeHeight = height(rootNode.getLeftNode());
         int rightNodeHeight = height(rootNode.getRightNode());
-        return Math.max(leftNodeHeight, rightNodeHeight) + 1;
+        return Math.max(leftNodeHeight, rightNodeHeight);
     }
 
     public void delete(int key) {
@@ -65,22 +69,22 @@ public class BiTree {
             System.out.println("값이 없어요");
             return;
         }
-        Node maxNode = findChangeNode(deleteNode);
-        changeNode(deleteNode, maxNode);
+        Node maxNode = findReplaceDeleteNode(deleteNode);
+        replaceDeleteNode(deleteNode, maxNode);
 
     }
 
-    private Node findChangeNode(Node node) {
-        if (node.getLeftNode() == null && node.getRightNode() == null) {
+    private Node findReplaceDeleteNode(Node node) {
+        if (node.hasNoChild()) {
             return null;
         }
-        if (node.getLeftNode() == null) {
+        if (node.isLeftNodeNull()) {
             return findRightMinNode(node);
         }
         return findLeftMaxNode(node);
     }
 
-    protected Node findNode(int key) {
+    private Node findNode(int key) {
         return findNode(root, key);
     }
 
@@ -88,7 +92,7 @@ public class BiTree {
         if (root == null) {
             return null;
         }
-        if (root.getKey() == key) {
+        if (isRootNode(root, key)) {
             return root;
         }
         if (key > root.getKey()) {
@@ -97,77 +101,94 @@ public class BiTree {
         return findNode(root.getLeftNode(), key);
     }
 
-    private void changeNode(Node deleteNode, Node maxNode) {
-        if (root.getKey() == deleteNode.getKey()) {
-            if (root.getRightNode().getKey() != maxNode.getKey()) {
-                maxNode.setRightNode(root.getRightNode());
-            }
-            if (root.getLeftNode().getKey() != maxNode.getKey()) {
-                maxNode.setLeftNode(root.getLeftNode());
-            }
-            root = maxNode;
-            return;
-        }
-
+    private void replaceDeleteNode(Node deleteNode, Node maxNode) {
         Node parentDeleteNode = findParentNode(deleteNode);
-        if (maxNode == null) {
-            if (parentDeleteNode.getKey() < deleteNode.getKey()) {
-                parentDeleteNode.setRightNode(null);
-            } else {
-                parentDeleteNode.setLeftNode(null);
-            }
+
+        if (isRootNode(root, deleteNode.getKey())) {
+            rootNodeChange(maxNode);
             return;
         }
-
-        Node maxNodeDeleteNode = findParentNode(maxNode);
-        //max노드로 위치를 대처한다.
-        if (parentDeleteNode.getKey() > deleteNode.getKey()) {
-            parentDeleteNode.setLeftNode(maxNode);
-        } else {
-            parentDeleteNode.setRightNode(maxNode);
+        if (maxNode == null) {
+            lastLevelChange(deleteNode, parentDeleteNode);
+            return;
         }
-
-        if (maxNodeDeleteNode.getKey() > maxNode.getKey()) {
-            maxNodeDeleteNode.setRightNode(null);
-        } else {
-            maxNodeDeleteNode.setLeftNode(null);
-        }
-
+        middleLevelChange(deleteNode, maxNode);
     }
 
-    private Node findParentNode(Node node) {
-        if (root.getKey() == node.getKey()) {
+    private void middleLevelChange(Node deleteNode, Node maxNode) {
+        Node maxNodeDeleteNode = findParentNode(maxNode);
+        Node parentDeleteNode = findParentNode(deleteNode);
+        placeNewNode(deleteNode, maxNode, parentDeleteNode);
+        removeNode(maxNode, maxNodeDeleteNode);
+    }
+
+    private void removeNode(Node maxNode, Node maxNodeDeleteNode) {
+        if (maxNodeDeleteNode.getKey() > maxNode.getKey()) {
+            maxNodeDeleteNode.setRightNode(null);
+            return;
+        }
+        maxNodeDeleteNode.setLeftNode(null);
+    }
+
+    private void placeNewNode(Node deleteNode, Node maxNode, Node parentDeleteNode) {
+        if (parentDeleteNode.getKey() > deleteNode.getKey()) {
+            parentDeleteNode.setLeftNode(maxNode);
+            return;
+        }
+        parentDeleteNode.setRightNode(maxNode);
+    }
+
+    private void lastLevelChange(Node deleteNode, Node parentDeleteNode) {
+        if (parentDeleteNode.getKey() < deleteNode.getKey()) {
+            parentDeleteNode.setRightNode(null);
+            return;
+        }
+        parentDeleteNode.setLeftNode(null);
+    }
+
+    private void rootNodeChange(Node maxNode) {
+        if (root.getRightNode().getKey() != maxNode.getKey()) {
+            maxNode.setRightNode(root.getRightNode());
+        }
+        if (root.getLeftNode().getKey() != maxNode.getKey()) {
+            maxNode.setLeftNode(root.getLeftNode());
+        }
+        root = maxNode;
+    }
+
+    private boolean isRootNode(Node root, int key) {
+        return root.getKey() == key;
+    }
+
+    private Node findParentNode(Node deleteNode) {
+        if (isRootNode(root, deleteNode.getKey())) {
             return root;
         }
         Node currentNode = root;
-
-        while (!hasDeleteChildNode(node, currentNode)) {
-            if (currentNode == null) {
+        while (true) {
+            if (hasChildNode(root)) {
                 break;
             }
-            if (node.getKey() > currentNode.getKey()) {
-                currentNode = currentNode.getRightNode();
-                continue;
+            if (root.containChild(deleteNode)) {
+                break;
             }
-            currentNode = currentNode.getLeftNode();
+            currentNode = nextChildNode(deleteNode, currentNode);
         }
         return currentNode;
     }
 
-    private boolean hasDeleteChildNode(Node deleteNode, Node currentNode) {
-        if (currentNode == null) {
-            return false;
+    private Node nextChildNode(Node deleteNode, Node currentNode) {
+        if (deleteNode.getKey() > currentNode.getKey()) {
+            return currentNode.getRightNode();
         }
-        if (currentNode.getRightNode() != null && currentNode.getRightNode().getKey() == deleteNode.getKey()) {
-            return true;
-        }
-        if (currentNode.getLeftNode() != null && currentNode.getLeftNode().getKey() == deleteNode.getKey()) {
-            return true;
-        }
-        return false;
+        return currentNode.getLeftNode();
     }
 
-    protected Node findLeftMaxNode(Node node) {
+    private boolean hasChildNode(Node root) {
+        return root.getLeftNode() != null || root.getRightNode() != null;
+    }
+
+    private Node findLeftMaxNode(Node node) {
         if (node.getLeftNode() == null) {
             return null;
         }
@@ -178,7 +199,7 @@ public class BiTree {
         return currentNode;
     }
 
-    protected Node findRightMinNode(Node node) {
+    private Node findRightMinNode(Node node) {
         if (node.getRightNode() == null) {
             return null;
         }
