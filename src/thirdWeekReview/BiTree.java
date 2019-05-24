@@ -60,15 +60,12 @@ public class BiTree {
     }
 
     public void delete(int key) {
-        //(1) 해당 key의 노드를 찾는다.
         Node deleteNode = findNode(key);
         if (deleteNode == null) {
             System.out.println("값이 없어요");
             return;
         }
-        //(2) 그 노드를 기준으로 왼쪽에서 가장 큰 key를 가진 노드나 오른쪽에서 가장 작은 key를 가진 노드를 찾는다.
         Node maxNode = findChangeNode(deleteNode);
-        //(3) 2번에서 찾은 노드를 부모와 분리하고(사실상 삭제), 1번에서 찾은 노드를 2번에서 찾은 노드(또는 속성)로 대체한다.
         changeNode(deleteNode, maxNode);
 
     }
@@ -78,9 +75,9 @@ public class BiTree {
             return null;
         }
         if (node.getLeftNode() == null) {
-            return findeRightMinNode(node);
+            return findRightMinNode(node);
         }
-        return findeLeftMaxNode(node);
+        return findLeftMaxNode(node);
     }
 
     protected Node findNode(int key) {
@@ -102,7 +99,12 @@ public class BiTree {
 
     private void changeNode(Node deleteNode, Node maxNode) {
         if (root.getKey() == deleteNode.getKey()) {
-            maxNode.setLeftNode(root.getLeftNode());
+            if (root.getRightNode().getKey() != maxNode.getKey()) {
+                maxNode.setRightNode(root.getRightNode());
+            }
+            if (root.getLeftNode().getKey() != maxNode.getKey()) {
+                maxNode.setLeftNode(root.getLeftNode());
+            }
             root = maxNode;
             return;
         }
@@ -120,11 +122,11 @@ public class BiTree {
         Node maxNodeDeleteNode = findParentNode(maxNode);
         //max노드로 위치를 대처한다.
         if (parentDeleteNode.getKey() > deleteNode.getKey()) {
-            parentDeleteNode.setRightNode(maxNode);
-        } else {
             parentDeleteNode.setLeftNode(maxNode);
+        } else {
+            parentDeleteNode.setRightNode(maxNode);
         }
-        //maxnode의 parent에서 maxNode를 지운다.
+
         if (maxNodeDeleteNode.getKey() > maxNode.getKey()) {
             maxNodeDeleteNode.setRightNode(null);
         } else {
@@ -165,7 +167,7 @@ public class BiTree {
         return false;
     }
 
-    protected Node findeLeftMaxNode(Node node) {
+    protected Node findLeftMaxNode(Node node) {
         if (node.getLeftNode() == null) {
             return null;
         }
@@ -173,10 +175,10 @@ public class BiTree {
         while (currentNode.getRightNode() != null) {
             currentNode = currentNode.getRightNode();
         }
-        return currentNode.getRightNode();
+        return currentNode;
     }
 
-    protected Node findeRightMinNode(Node node) {
+    protected Node findRightMinNode(Node node) {
         if (node.getRightNode() == null) {
             return null;
         }
@@ -184,7 +186,7 @@ public class BiTree {
         while (currentNode.getLeftNode() != null) {
             currentNode = currentNode.getLeftNode();
         }
-        return currentNode.getLeftNode();
+        return currentNode;
     }
 
 }

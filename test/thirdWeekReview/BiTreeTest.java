@@ -44,8 +44,7 @@ public class BiTreeTest {
         tree.insert(5);
         tree.insert(4);
         tree.insert(6);
-        tree.insert(7);
-        assertEquals(3, tree.height());
+        assertEquals(2, tree.height());
         tree.delete(5);
         assertEquals(2, tree.height());
     }
@@ -80,14 +79,6 @@ public class BiTreeTest {
         tree.insert(6);
         tree.insert(7);
         assertEquals(null, tree.findNode(8));
-    }
-
-    @Test
-    public void findLeftMaxNode() {
-        tree.insert(5);
-        tree.insert(4);
-        tree.insert(3);
-        assertEquals(null, tree.findeLeftMaxNode(new Node(5)));
     }
 
 }
