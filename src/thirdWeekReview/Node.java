@@ -14,10 +14,6 @@ public class Node {
         return key;
     }
 
-    public void setKey(int key) {
-        this.key = key;
-    }
-
     public Node getLeftNode() {
         return leftNode;
     }
@@ -64,5 +60,126 @@ public class Node {
 
     public boolean hasNoChild() {
         return isLeftNodeNull() && isRightNodeNull();
+    }
+
+    public int height() {
+        if (this.hasNoChild()) {
+            return 1;
+        }
+        return childHeight() + 1;
+    }
+
+    private int childHeight() {
+        int leftNodeHeight = getLeftNode() == null ? 0 : getLeftNode().height();
+        int rightNodeHeight = getRightNode() == null ? 0 : getRightNode().height();
+        return Math.max(leftNodeHeight, rightNodeHeight);
+    }
+
+
+    public void insert(Node newNode) {
+        if (!this.bigger(newNode)) {
+            rightInsert(newNode);
+            return;
+        }
+        leftInsert(newNode);
+        return;
+    }
+
+    private void leftInsert(Node newNode) {
+        if (this.isLeftNodeNull()) {
+            this.setLeftNode(newNode);
+            return;
+        }
+        getLeftNode().insert(newNode);
+        return;
+    }
+
+    private void rightInsert(Node newNode) {
+        if (this.isRightNodeNull()) {
+            this.setRightNode(newNode);
+            return;
+        }
+        getRightNode().insert(newNode);
+        return;
+    }
+
+
+    public Node findNode(int key) {
+        if (getKey() == key) {
+            return this;
+        }
+        if (key > this.getKey()) {
+            return getRightNode() == null ? null : getRightNode().findNode(key);
+        }
+        return getLeftNode() == null ? null : getLeftNode().findNode(key);
+    }
+
+    public Node findRightMinNode() {
+        if (getRightNode() == null) {
+            return null;
+        }
+        Node currentNode = getRightNode();
+        while (currentNode.getLeftNode() != null) {
+            currentNode = currentNode.getLeftNode();
+        }
+        return currentNode;
+    }
+
+    public Node findLeftMaxNode() {
+        if (getLeftNode() == null) {
+            return null;
+        }
+        Node currentNode = getLeftNode();
+        while (currentNode.getRightNode() != null) {
+            currentNode = currentNode.getRightNode();
+        }
+        return currentNode;
+    }
+
+    public boolean hasChildNode() {
+        return getLeftNode() != null || getRightNode() != null;
+    }
+
+    public Node findParentNode(Node deleteNode) {
+        if (getKey() == deleteNode.getKey()) {
+            return this;
+        }
+        Node currentNode = this;
+        while (true) {
+            if (currentNode.hasChildNode() || currentNode.containChild(deleteNode)) {
+                break;
+            }
+            currentNode = currentNode.bigger(deleteNode) ? currentNode.getRightNode() : currentNode.getLeftNode();
+        }
+        return currentNode;
+    }
+
+    public boolean equalsKey(Node deleteNode) {
+        return key == deleteNode.getKey();
+    }
+
+    public Node rootNodeChange(Node maxNode) {
+        if (getRightNode().getKey() != maxNode.getKey()) {
+            maxNode.setRightNode(getRightNode());
+        }
+        if (getLeftNode().getKey() != maxNode.getKey()) {
+            maxNode.setLeftNode(getLeftNode());
+        }
+        return maxNode;
+    }
+
+    public void deleteChild(Node deleteNode) {
+        if (getKey() < deleteNode.getKey()) {
+            setRightNode(null);
+            return;
+        }
+        setLeftNode(null);
+    }
+
+    public void replaceChild(Node originNode, Node newNode) {
+        if (getKey() > originNode.getKey()) {
+            setLeftNode(newNode);
+        }
+        setRightNode(newNode);
     }
 }
