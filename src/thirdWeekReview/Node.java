@@ -91,7 +91,7 @@ public class Node {
         return isLeftNodeNull() ? null : leftNode.findNode(key);
     }
 
-    public Node findRightMinNode() {
+    private Node findRightMinNode() {
         if (isRightNodeNull()) {
             return null;
         }
@@ -105,7 +105,7 @@ public class Node {
         return leftNode.findRightMinNodeRecursive();
     }
 
-    public Node findLeftMaxNode() {
+    private Node findLeftMaxNode() {
         if (isLeftNodeNull()) {
             return null;
         }
@@ -119,7 +119,7 @@ public class Node {
         return rightNode.findLeftMaxNodeRecursive();
     }
 
-    public Node findParentNode(Node node) {
+    private Node findParentNode(Node node) {
         if (equalsKey(node)) {
             return this;
         }
@@ -146,13 +146,8 @@ public class Node {
         return newRoot;
     }
 
-    public void deleteNextLevelNode(Node deleteNode) {
+    private void deleteNextLevelNode(Node deleteNode) {
         if (hasNoChild()) {
-            return;
-        }
-        if ((!isRightNodeNull() && !rightNode.equalsKey(deleteNode))
-                && (!isLeftNodeNull() && leftNode.equalsKey(deleteNode))) {
-
             return;
         }
         if (!bigger(deleteNode)) {
@@ -167,5 +162,47 @@ public class Node {
             setLeftNode(newNode);
         }
         setRightNode(newNode);
+    }
+
+    public void insert(int i) {
+        insert(new Node(i));
+    }
+
+    public void delete(int key) {
+        Node deleteNode = findNode(key);
+        if (deleteNode == null) {
+            System.out.println("값이 없어요");
+            return;
+        }
+        Node maxNode = deleteNode.findReplaceNodeForDelete();
+        replaceDeleteToNewNode(deleteNode, maxNode);
+    }
+
+    public Node findReplaceNodeForDelete() {
+        if (hasNoChild()) {
+            return null;
+        }
+        return isLeftNodeNull() == true ? findRightMinNode() : findLeftMaxNode();
+    }
+
+    private void replaceDeleteToNewNode(Node deleteNode, Node newNode) {
+        Node parentDeleteNode = findParentNode(deleteNode);
+        if (newNode == null) {
+            parentDeleteNode.deleteNextLevelNode(deleteNode);
+            return;
+        }
+        middleLevelChange(deleteNode, newNode);
+    }
+
+    private void middleLevelChange(Node deleteNode, Node maxNode) {
+        Node maxNodeDeleteNode = findParentNode(maxNode);
+        Node parentDeleteNode = findParentNode(deleteNode);
+        parentDeleteNode.replaceChild(deleteNode, maxNode);
+        maxNodeDeleteNode.deleteNextLevelNode(maxNode);
+    }
+
+    public void replaceChild(int originKey, int newKey) {
+        Node originNode = findNode(originKey);
+        replaceChild(originNode, new Node(newKey));
     }
 }

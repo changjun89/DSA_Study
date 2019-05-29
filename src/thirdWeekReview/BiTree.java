@@ -24,45 +24,12 @@ public class BiTree {
         if (root == null) {
             return;
         }
-        Node deleteNode = root.findNode(key);
-        if (deleteNode == null) {
-            System.out.println("값이 없어요");
+      if (root.getKey() == key) {
+        Node newRoot = root.findReplaceNodeForDelete();
+        root = root.rootNodeChange(newRoot);
             return;
         }
-        Node maxNode = findReplaceDeleteNode(deleteNode);
-        replaceDeleteNode(deleteNode, maxNode);
-    }
-
-    private Node findReplaceDeleteNode(Node node) {
-        if (node.hasNoChild()) {
-            return null;
-        }
-        if (node.isLeftNodeNull()) {
-            return node.findRightMinNode();
-        }
-        return node.findLeftMaxNode();
-    }
-
-
-    private void replaceDeleteNode(Node deleteNode, Node maxNode) {
-        Node parentDeleteNode = root.findParentNode(deleteNode);
-
-        if (root.equalsKey(deleteNode)) {
-            root = root.rootNodeChange(maxNode);
-            return;
-        }
-        if (maxNode == null) {
-            parentDeleteNode.deleteNextLevelNode(deleteNode);
-            return;
-        }
-        middleLevelChange(deleteNode, maxNode);
-    }
-
-    private void middleLevelChange(Node deleteNode, Node maxNode) {
-        Node maxNodeDeleteNode = root.findParentNode(maxNode);
-        Node parentDeleteNode = root.findParentNode(deleteNode);
-        parentDeleteNode.replaceChild(deleteNode, maxNode);
-        maxNodeDeleteNode.deleteNextLevelNode(maxNode);
+      root.delete(key);
     }
 
 }
