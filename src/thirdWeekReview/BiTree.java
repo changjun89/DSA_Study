@@ -52,7 +52,7 @@ public class BiTree {
             return;
         }
         if (maxNode == null) {
-            parentDeleteNode.deleteChild(deleteNode);
+            parentDeleteNode.deleteNextLevelNode(deleteNode);
             return;
         }
         middleLevelChange(deleteNode, maxNode);
@@ -62,7 +62,7 @@ public class BiTree {
         Node maxNodeDeleteNode = root.findParentNode(maxNode);
         Node parentDeleteNode = root.findParentNode(deleteNode);
         parentDeleteNode.replaceChild(deleteNode, maxNode);
-        maxNodeDeleteNode.deleteChild(maxNode);
+        maxNodeDeleteNode.deleteNextLevelNode(maxNode);
     }
 
 }

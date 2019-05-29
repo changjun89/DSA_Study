@@ -26,6 +26,8 @@ public class BiTreeTest {
         assertEquals(2, tree.height());
         tree.insert(7);
         assertEquals(3, tree.height());
+        tree.insert(8);
+        assertEquals(4, tree.height());
     }
 
     @Test
