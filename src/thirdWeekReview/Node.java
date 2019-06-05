@@ -132,32 +132,32 @@ public class Node {
         return isLeftNodeNull() ? null : leftNode.findParentNode(node, this);
     }
 
-    public Node rootNodeChange(Node newRoot) {
-        if (!rightNode.equalsKey(newRoot)) {
-            newRoot.setRightNode(rightNode);
+    public Node rootNodeChange(Node node) {
+        if (!rightNode.equalsKey(node)) {
+            node.setRightNode(rightNode);
         }
-        if (!leftNode.equalsKey(newRoot)) {
-            newRoot.leftNode = leftNode;
+        if (!leftNode.equalsKey(node)) {
+            node.leftNode = leftNode;
         }
-        return newRoot;
+        return node;
     }
 
-    private void deleteNextLevelNode(Node deleteNode) {
+    private void deleteNextLevelNode(Node node) {
         if (hasNoChild()) {
             return;
         }
-        if (!bigger(deleteNode)) {
+        if (!bigger(node)) {
             setRightNode(null);
             return;
         }
         this.leftNode = null;
     }
 
-    public void replaceChild(Node originNode, Node newNode) {
+    public void replaceChild(Node originNode, Node node) {
         if (bigger(originNode)) {
-            this.leftNode = newNode;
+            this.leftNode = node;
         }
-        setRightNode(newNode);
+        setRightNode(node);
     }
 
     public void insert(int i) {
@@ -181,13 +181,13 @@ public class Node {
         return isLeftNodeNull() == true ? findRightMinNode() : findLeftMaxNode();
     }
 
-    private void replaceDeleteToNewNode(Node deleteNode, Node newNode) {
+    private void replaceDeleteToNewNode(Node deleteNode, Node node) {
         Node parentDeleteNode = findParentNode(deleteNode);
-        if (newNode == null) {
+        if (node == null) {
             parentDeleteNode.deleteNextLevelNode(deleteNode);
             return;
         }
-        middleLevelChange(deleteNode, newNode);
+        middleLevelChange(deleteNode, node);
     }
 
     private void middleLevelChange(Node deleteNode, Node maxNode) {
