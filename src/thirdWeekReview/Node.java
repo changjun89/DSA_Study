@@ -190,11 +190,11 @@ public class Node {
         middleLevelChange(deleteNode, node);
     }
 
-    private void middleLevelChange(Node deleteNode, Node maxNode) {
-        Node maxNodeDeleteNode = findParentNode(maxNode);
+    private void middleLevelChange(Node deleteNode, Node node) {
+        Node maxNodeDeleteNode = findParentNode(node);
         Node parentDeleteNode = findParentNode(deleteNode);
-        parentDeleteNode.replaceChild(deleteNode, maxNode);
-        maxNodeDeleteNode.deleteNextLevelNode(maxNode);
+        parentDeleteNode.replaceChild(deleteNode, node);
+        maxNodeDeleteNode.deleteNextLevelNode(node);
     }
 
     public void replaceChild(int originKey, int newKey) {
