@@ -13,11 +13,6 @@ public class Node {
     public int getKey() {
         return key;
     }
-
-    public void setRightNode(Node rightNode) {
-        this.rightNode = rightNode;
-    }
-
     public boolean bigger(Node newNode) {
         return key > newNode.getKey();
     }
@@ -68,12 +63,12 @@ public class Node {
         return;
     }
 
-    private void rightInsert(Node newNode) {
+    private void rightInsert(Node node) {
         if (this.isRightNodeNull()) {
-            this.setRightNode(newNode);
+            this.rightNode = node;
             return;
         }
-        rightNode.insert(newNode);
+        rightNode.insert(node);
         return;
     }
 
@@ -134,7 +129,7 @@ public class Node {
 
     public Node rootNodeChange(Node node) {
         if (!rightNode.equalsKey(node)) {
-            node.setRightNode(rightNode);
+            node.rightNode = rightNode;
         }
         if (!leftNode.equalsKey(node)) {
             node.leftNode = leftNode;
@@ -147,7 +142,7 @@ public class Node {
             return;
         }
         if (!bigger(node)) {
-            setRightNode(null);
+            this.rightNode = null;
             return;
         }
         this.leftNode = null;
@@ -157,7 +152,7 @@ public class Node {
         if (bigger(originNode)) {
             this.leftNode = node;
         }
-        setRightNode(node);
+        this.rightNode = node;
     }
 
     public void insert(int i) {
