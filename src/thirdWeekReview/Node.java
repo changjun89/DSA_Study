@@ -17,16 +17,16 @@ public class Node {
         return key > newNode.getKey();
     }
 
-    public boolean isLeftNodeNull() {
-        return leftNode == null;
+    public boolean hasLeft() {
+        return leftNode != null;
     }
 
-    public boolean isRightNodeNull() {
-        return rightNode == null;
+    public boolean hasRight() {
+        return rightNode != null;
     }
 
     public boolean hasNoChild() {
-        return isLeftNodeNull() && isRightNodeNull();
+        return !hasLeft() && !hasRight();
     }
 
     public boolean equalsKey(Node node) {
@@ -55,7 +55,7 @@ public class Node {
     }
 
     private void leftInsert(Node newNode) {
-        if (this.isLeftNodeNull()) {
+        if (!this.hasLeft()) {
             this.leftNode = newNode;
             return;
         }
@@ -64,7 +64,7 @@ public class Node {
     }
 
     private void rightInsert(Node node) {
-        if (this.isRightNodeNull()) {
+        if (!this.hasRight()) {
             this.rightNode = node;
             return;
         }
@@ -77,34 +77,34 @@ public class Node {
             return this;
         }
         if (key > this.getKey()) {
-            return isRightNodeNull() ? null : rightNode.findNode(key);
+            return !hasRight() ? null : rightNode.findNode(key);
         }
-        return isLeftNodeNull() ? null : leftNode.findNode(key);
+        return !hasLeft() ? null : leftNode.findNode(key);
     }
 
     private Node findRightMinNode() {
-        if (isRightNodeNull()) {
+        if (!hasRight()) {
             return null;
         }
         return rightNode.findRightMinNodeRecursive();
     }
 
     private Node findRightMinNodeRecursive() {
-        if (isLeftNodeNull()) {
+        if (!hasLeft()) {
             return this;
         }
         return leftNode.findRightMinNodeRecursive();
     }
 
     private Node findLeftMaxNode() {
-        if (isLeftNodeNull()) {
+        if (!hasLeft()) {
             return null;
         }
         return leftNode.findLeftMaxNodeRecursive();
     }
 
     private Node findLeftMaxNodeRecursive() {
-        if (isRightNodeNull()) {
+        if (!hasRight()) {
             return this;
         }
         return rightNode.findLeftMaxNodeRecursive();
@@ -122,9 +122,9 @@ public class Node {
             return parentNode;
         }
         if (!bigger(node)) {
-            return isRightNodeNull() ? null : rightNode.findParentNode(node, this);
+            return !hasRight() ? null : rightNode.findParentNode(node, this);
         }
-        return isLeftNodeNull() ? null : leftNode.findParentNode(node, this);
+        return !hasLeft() ? null : leftNode.findParentNode(node, this);
     }
 
     public Node rootNodeChange(Node node) {
@@ -173,7 +173,7 @@ public class Node {
         if (hasNoChild()) {
             return null;
         }
-        return isLeftNodeNull() == true ? findRightMinNode() : findLeftMaxNode();
+        return !hasLeft() == true ? findRightMinNode() : findLeftMaxNode();
     }
 
     private void replaceDeleteToNewNode(Node deleteNode, Node node) {
